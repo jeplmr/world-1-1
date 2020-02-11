@@ -32,6 +32,7 @@ public class Flag : MonoBehaviour
         SetFlagMaterial();  
     }
 
+    //Animte the flag by stepping through blendShapes every frame as specified by framerate 
     void FixedUpdate()
     {
         if (Time.time > nextFrame)
@@ -48,10 +49,10 @@ public class Flag : MonoBehaviour
         }
     }
 
+    //Let's pick a random flag material when the level starts
     public void SetFlagMaterial()
     {
-        int i = Mathf.RoundToInt(Random.Range(0, mats.Length-1)); 
-        //Debug.Log(i); 
+        int i = Mathf.RoundToInt(Random.Range(0, mats.Length-1)); //why tf am I not using Random.Range()? 
         _renderer.material = mats[i];
     }
 
