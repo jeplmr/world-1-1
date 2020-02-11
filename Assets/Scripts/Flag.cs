@@ -50,7 +50,7 @@ public class Flag : MonoBehaviour
 
     public void SetFlagMaterial()
     {
-        int i = Mathf.RoundToInt(Random.Range(0, mats.Length)); 
+        int i = Mathf.RoundToInt(Random.Range(0, mats.Length-1)); 
         //Debug.Log(i); 
         _renderer.material = mats[i];
     }
