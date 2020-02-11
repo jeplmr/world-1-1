@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//If memory serves, I'm not using this script at all. Look into and remove if unused. 
 public class Baker : MonoBehaviour
 {
     private GameObject[] _probes; 
