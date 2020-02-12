@@ -5,18 +5,17 @@ using UnityEngine;
 public class Flag : MonoBehaviour
 {
     public float frameRate; 
-    public int start = 119;
-    public int end = 187;
-
+    //The cloth simulation I did in Blender does not loop cleanly. I eyeballed the loop, the below frame selections work well. 
+    public int beginningFrame = 119;
+    public int endingFrame = 187;
     public Material[] mats;
 
-    private float nextFrame = 0f;
+    private float _nextFrame = 0f;
     private int _currentFrame;
     private int _blendShapeCount;
     private SkinnedMeshRenderer _skinnedMeshRenderer;
     private Mesh _skinnedMesh;
     private Renderer _renderer;
-    //private bool _skipFrame = true; 
 
     void Awake()
     {
@@ -28,31 +27,33 @@ public class Flag : MonoBehaviour
     void Start()
     {
         _blendShapeCount = _skinnedMesh.blendShapeCount;
-        _currentFrame = start;
+        _currentFrame = beginningFrame;
         SetFlagMaterial();  
     }
 
-    //Animte the flag by stepping through blendShapes every frame as specified by framerate 
+    //Animte the flag by stepping through blendShapes every fixed update
     void FixedUpdate()
     {
-        if (Time.time > nextFrame)
+        if (Time.time > _nextFrame)
         {
-            nextFrame = Time.time + frameRate; 
+            _nextFrame = Time.time + frameRate; 
             _skinnedMeshRenderer.GetBlendShapeWeight(_currentFrame);
             _skinnedMeshRenderer.SetBlendShapeWeight(_currentFrame, 0);
             _currentFrame++;
-            if (_currentFrame >= end)
+            if (_currentFrame >= endingFrame)
             {
-                _currentFrame = start;
+                _currentFrame = beginningFrame;
             }
             _skinnedMeshRenderer.SetBlendShapeWeight(_currentFrame, 100);
         }
     }
 
-    //Let's pick a random flag material when the level starts
+    //Pick a random flag material when the level starts
     public void SetFlagMaterial()
     {
-        int i = Mathf.RoundToInt(Random.Range(0, mats.Length-1)); //why tf am I not using Random.Range()? 
+        int i = Random.Range(0, mats.Length);
+        //TIL Random.Range() is exclusive; i.e., Range(0, 10) will return a value between 0 and 9. Source: 
+        //https://docs.unity3d.com/ScriptReference/Random.Range.html
         _renderer.material = mats[i];
     }
 
